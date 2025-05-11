@@ -1,1 +1,3 @@
-build
+.gitattributes
+build/
+external/*
