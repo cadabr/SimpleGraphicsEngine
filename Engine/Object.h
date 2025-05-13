@@ -1,7 +1,23 @@
 #pragma once
 
-class Component;
+#include "Component.h"
 
 class Object {
-    std::vector<std::shared_ptr<Component>> compotents;
+public:
+    void addComponent(std::shared_ptr<Component> c) {
+        components[c->getType()] = std::move(c);
+    }
+
+    Component* getComponentByType(ComponentType type) const {
+        auto it = components.find(type);
+        return it != components.end() ? it->second.get() : nullptr;
+    }
+
+    template<typename T>
+    T* getComponent() const {
+        return static_cast<T*>(getComponentByType(T::TypeID));
+    }
+
+private:
+    std::unordered_map<ComponentType, std::shared_ptr<Component>> components;
 };
