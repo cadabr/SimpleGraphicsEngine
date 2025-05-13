@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Component.h"
 
 class Object {
@@ -16,6 +15,10 @@ public:
     template<typename T>
     T* getComponent() const {
         return static_cast<T*>(getComponentByType(T::TypeID));
+    }
+
+    bool hasComponent(ComponentType type) const {
+        return getComponentByType(type);
     }
 
 private:

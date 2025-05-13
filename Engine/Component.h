@@ -1,6 +1,11 @@
 #pragma once
 
-#include "ComponentTypeReg.h"
+enum class ComponentType {
+    Graphics,
+    Kinematics,
+    Transform,
+    ENUM_SIZE
+};
 
 class Object;
 

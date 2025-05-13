@@ -1,6 +1,9 @@
 #pragma once
 
+#include <functional>
+#include <memory>
 #include <unordered_map>
+#include <utility>
 
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/composite_key.hpp>
