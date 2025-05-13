@@ -10,6 +10,7 @@ libs/config/
 libs/container_hash/
 libs/core/
 libs/describe/
+libs/integer/
 libs/iterator/
 libs/move/
 libs/mp11/

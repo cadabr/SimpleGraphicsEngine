@@ -1,3 +1,3 @@
 .gitattributes
+.vscode/
 build/
-external/*

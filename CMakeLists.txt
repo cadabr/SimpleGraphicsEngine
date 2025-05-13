@@ -1,15 +1,34 @@
-cmake_minimum_required(VERSION 3.10.0)
+cmake_minimum_required(VERSION 3.16.0)
 project(SimpleGraphicsEngine VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(SOURCES
-    main.cpp
-)
+add_executable(${PROJECT_NAME} main.cpp)
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+set(BOOST_LIBS ${CMAKE_SOURCE_DIR}/external/boost/libs)
 
-include_directories(${CMAKE_SOURCE_DIR}/Engine)
+target_precompile_headers(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/Engine/pch.h)
 
-set_target_properties(SimpleGraphicsEngine PROPERTIES LINK_FLAGS "-static -static-libgcc -static-libstdc++ -mwindows")
+target_include_directories(${PROJECT_NAME} PUBLIC
+    ${CMAKE_SOURCE_DIR}/Engine
+    ${BOOST_LIBS}/assert/include
+    ${BOOST_LIBS}/bind/include
+    ${BOOST_LIBS}/config/include
+    ${BOOST_LIBS}/container_hash/include
+    ${BOOST_LIBS}/core/include
+    ${BOOST_LIBS}/describe/include
+    ${BOOST_LIBS}/integer/include
+    ${BOOST_LIBS}/iterator/include
+    ${BOOST_LIBS}/move/include
+    ${BOOST_LIBS}/mp11/include
+    ${BOOST_LIBS}/mpl/include
+    ${BOOST_LIBS}/multi_index/include
+    ${BOOST_LIBS}/preprocessor/include
+    ${BOOST_LIBS}/static_assert/include
+    ${BOOST_LIBS}/throw_exception/include
+    ${BOOST_LIBS}/tuple/include
+    ${BOOST_LIBS}/type_traits/include
+    ${BOOST_LIBS}/utility/include)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-static -static-libgcc -static-libstdc++ -mwindows")
