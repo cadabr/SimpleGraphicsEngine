@@ -7,11 +7,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(${PROJECT_NAME}
     main.cpp
     Engine/Engine.cpp
+    Engine/Subsystems/GraphicsSubsystem.cpp
 )
 
 set(BOOST_LIBS ${CMAKE_SOURCE_DIR}/external/boost/libs)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
+    ${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/Engine
     ${CMAKE_SOURCE_DIR}/external/freeglut/include
     ${BOOST_LIBS}/assert/include

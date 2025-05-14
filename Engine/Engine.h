@@ -8,11 +8,7 @@ class Engine : public ExplicitSingleton<Engine> {
 public:
     Engine(const Parameters& params);
 
-    void start() {
-        for(auto subsystem: subsystems) {
-            subsystem->tick();
-        }
-    }
+    void start();
 
     const Parameters& getParameters() const { return parameters; }
 

@@ -5,5 +5,5 @@ class Scene;
 class Subsystem {
 public:
     virtual ~Subsystem() = default;
-    virtual void tick() = 0;
+    virtual void tick(Scene* scene) = 0;
 };

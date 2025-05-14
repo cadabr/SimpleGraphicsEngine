@@ -3,6 +3,6 @@
 
 class KinematicsSubsystem : public Subsystem {
 public:
-    void tick() override {
+    void tick(Scene* scene) override {
     }
 };
