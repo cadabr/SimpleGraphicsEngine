@@ -1,8 +1,11 @@
 #pragma once
 
-class LaunchParameters {
-public:
-    LaunchParameters(int argc, char** argv) {
-        // Инициализация параметров запуска
+struct Parameters {
+    Parameters(int argc, char** argv) 
+    : argc(argc)
+    , argv(argv) {
     }
+
+    int argc;
+    char** argv;
 };

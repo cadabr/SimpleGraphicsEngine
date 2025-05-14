@@ -18,8 +18,9 @@ struct by_transform  {};
 
 namespace bmi = boost::multi_index;
 
+template <typename StoredClass>
 using MultiIndex = boost::multi_index_container<
-    std::shared_ptr<Object>,
+    StoredClass,
     bmi::indexed_by<
         bmi::hashed_non_unique<
             bmi::tag<by_graphics>,
