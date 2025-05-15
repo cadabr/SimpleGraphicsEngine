@@ -7,13 +7,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(external/SDL)
 add_subdirectory(external/glm)
 
-add_executable(${PROJECT_NAME}
+set(SOURCES
     main.cpp
     Engine/Engine.cpp
-    Engine/Subsystems/GraphicsSubsystem.cpp
+    Engine/Scene/Subsystems/GraphicsSubsystem.cpp
 )
 
+add_executable(${PROJECT_NAME} ${SOURCES})
+
 set(BOOST_LIBS ${CMAKE_SOURCE_DIR}/external/boost/libs)
+
+target_precompile_headers(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/pch.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}
@@ -40,8 +44,16 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     ${BOOST_LIBS}/utility/include
 )
 
-target_precompile_headers(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/pch.h)
-
 find_package(OpenGL REQUIRED)
+
+set(SDL_DLL_PATH ${CMAKE_SOURCE_DIR}/build/external/SDL/SDL3.dll)
+
+set(OUTPUT_DLL_DIR ${CMAKE_SOURCE_DIR}/build)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${SDL_DLL_PATH}
+    ${OUTPUT_DLL_DIR}
+)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC SDL3::SDL3 OpenGL::GL)

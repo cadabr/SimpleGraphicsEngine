@@ -1,7 +1,7 @@
 #include "pch.h"
-#include "Components/All.h"
-#include "Core.h"
+#include "Core/CLIArguments.h"
 #include "Engine.h"
+#include "Scene/Components/All.h"
 
 using std::copy;
 using std::make_shared;
@@ -49,8 +49,8 @@ auto buildSmallDemoScene() {
 }
 
 int main(int argc, char** argv) {
-    Parameters params(argc, argv);
-    Engine instance(params);
+    CLIArguments args(argc, argv);
+    Engine instance(args);
     instance.setScene(buildSmallDemoScene());
     instance.start();
 }

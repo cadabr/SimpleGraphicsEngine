@@ -1,7 +1,7 @@
 #pragma once
 
-struct Parameters {
-    Parameters(int argc, char** argv) 
+struct CLIArguments {
+    CLIArguments(int argc, char** argv) 
     : argc(argc)
     , argv(argv) {
     }

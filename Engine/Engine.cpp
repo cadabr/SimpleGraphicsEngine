@@ -1,5 +1,5 @@
 #include "Engine.h"
-#include "Subsystems/All.h"
+#include "Scene/Subsystems/All.h"
 
 using std::make_shared;
 using std::move;
@@ -8,8 +8,8 @@ using std::swap;
 
 template<> Engine* ExplicitSingleton<Engine>::s_instance = nullptr;
 
-Engine::Engine(const Parameters& params)
-: parameters(params)
+Engine::Engine(const CLIArguments& args)
+: cliArguments(args)
 , subsystems({
     {make_shared<GraphicsSubsystem>()},
     {make_shared<KinematicsSubsystem>()}

@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "Scene/Component.h"
 
 class GraphicsComponent : public Component {
 public:
