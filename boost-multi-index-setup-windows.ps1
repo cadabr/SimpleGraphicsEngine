@@ -4,24 +4,24 @@ $BOOST_DIR = "external/boost"
 $OriginalLocation = Get-Location
 
 $SparseCheckoutContent = @"
-libs/assert/
-libs/bind/
-libs/config/
-libs/container_hash/
-libs/core/
-libs/describe/
-libs/integer/
-libs/iterator/
-libs/move/
-libs/mp11/
-libs/mpl/
-libs/multi_index/
-libs/preprocessor/
-libs/static_assert/
-libs/throw_exception/
-libs/tuple/
-libs/type_traits/
-libs/utility/
+    libs/assert/
+    libs/bind/
+    libs/config/
+    libs/container_hash/
+    libs/core/
+    libs/describe/
+    libs/integer/
+    libs/iterator/
+    libs/move/
+    libs/mp11/
+    libs/mpl/
+    libs/multi_index/
+    libs/preprocessor/
+    libs/static_assert/
+    libs/throw_exception/
+    libs/tuple/
+    libs/type_traits/
+    libs/utility/
 "@
 
 try {

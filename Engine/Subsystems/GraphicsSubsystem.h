@@ -1,12 +1,13 @@
 #pragma once
-#include "Engine.h"
 #include "Subsystem.h"
-#include "Components/GraphicsComponent.h"
-#include "Components/TransformComponent.h"
+
+class GraphicsSubsystemImpl;
 
 class GraphicsSubsystem : public Subsystem {
 public:
     GraphicsSubsystem();
-
+    ~GraphicsSubsystem();
     void tick(Scene* scene) override;
+private:
+    std::unique_ptr<GraphicsSubsystemImpl> impl;
 };

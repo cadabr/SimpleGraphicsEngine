@@ -1,20 +1,39 @@
 #include "pch.h"
+#include "Components/GraphicsComponent.h"
+#include "Components/TransformComponent.h"
 #include "GraphicsSubsystem.h"
+#include "Scene.h"
 
-GraphicsSubsystem::GraphicsSubsystem() {
-    auto argc = Engine::instance().getParameters().argc;
-    auto argv = Engine::instance().getParameters().argv;
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize(640, 480);
-    glutCreateWindow("GLUT Window");
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+using glm::value_ptr;
+
+class GraphicsSubsystemImpl {
+public:
+    GraphicsSubsystemImpl();
+    ~GraphicsSubsystemImpl();
+    void tick(Scene* scene);
+private:
+    SDL_Window* window = nullptr;
+    SDL_GLContext glContext = nullptr;
+};
+
+GraphicsSubsystemImpl::GraphicsSubsystemImpl() {
+    SDL_Init(SDL_INIT_VIDEO);
+    window = SDL_CreateWindow("My Window", 1024, 768, SDL_WINDOW_OPENGL);
+    glContext = SDL_GL_CreateContext(window);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 }
 
-void GraphicsSubsystem::tick(Scene* scene) {
-    glutMainLoopEvent();
+GraphicsSubsystemImpl::~GraphicsSubsystemImpl() {
+    SDL_GL_DestroyContext(glContext);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}
 
-    glClear(GL_COLOR_BUFFER_BIT);
+void GraphicsSubsystemImpl::tick(Scene* scene) {
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnableClientState(GL_VERTEX_ARRAY);
     glMatrixMode(GL_MODELVIEW);
 
@@ -24,11 +43,22 @@ void GraphicsSubsystem::tick(Scene* scene) {
         const auto& matrix   = (*it)->getComponent<TransformComponent>()->matrix;
 
         glLoadIdentity();
-        glLoadMatrixf(matrix.data());
-        glVertexPointer(vertices.size(), GL_FLOAT, 0, vertices.data());
+        glLoadMatrixf(value_ptr(matrix));
+        glVertexPointer(3, GL_FLOAT, 0, vertices.data());
         glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 3);
     }
 
     glDisableClientState(GL_VERTEX_ARRAY);
-    glutSwapBuffers();
+
+    SDL_GL_SwapWindow(window);
+}
+
+GraphicsSubsystem::GraphicsSubsystem()
+: impl(std::make_unique<GraphicsSubsystemImpl>()) {
+}
+
+GraphicsSubsystem::~GraphicsSubsystem() = default;
+
+void GraphicsSubsystem::tick(Scene* scene) {
+    impl->tick(scene);
 }

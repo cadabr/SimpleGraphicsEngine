@@ -12,9 +12,9 @@ public:
 
     const Parameters& getParameters() const { return parameters; }
 
-    std::shared_ptr<Scene> setScene(std::shared_ptr<Scene> newScene);
+    std::shared_ptr<Scene> setScene(std::shared_ptr<Scene> stranger);
 
-    std::shared_ptr<Scene> getScene() { return scene; }
+    std::shared_ptr<Scene> getScene() const { return scene; }
 
 private:
     Parameters parameters;

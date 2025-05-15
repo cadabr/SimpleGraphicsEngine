@@ -4,6 +4,9 @@ project(SimpleGraphicsEngine VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+add_subdirectory(external/SDL)
+add_subdirectory(external/glm)
+
 add_executable(${PROJECT_NAME}
     main.cpp
     Engine/Engine.cpp
@@ -15,7 +18,8 @@ set(BOOST_LIBS ${CMAKE_SOURCE_DIR}/external/boost/libs)
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/Engine
-    ${CMAKE_SOURCE_DIR}/external/freeglut/include
+    ${CMAKE_SOURCE_DIR}/external/glm
+    ${CMAKE_SOURCE_DIR}/external/SDL/include
     ${BOOST_LIBS}/assert/include
     ${BOOST_LIBS}/bind/include
     ${BOOST_LIBS}/config/include
@@ -38,10 +42,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/pch.h)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-static -static-libgcc -static-libstdc++ -mwindows")
+find_package(OpenGL REQUIRED)
 
-add_subdirectory(external/freeglut)
-
-target_include_directories(${PROJECT_NAME} PRIVATE )
-
-target_link_libraries(${PROJECT_NAME} PRIVATE freeglut_static)
+target_link_libraries(${PROJECT_NAME} PUBLIC SDL3::SDL3 OpenGL::GL)

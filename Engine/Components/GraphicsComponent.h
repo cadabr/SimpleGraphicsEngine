@@ -4,6 +4,5 @@
 class GraphicsComponent : public Component {
 public:
     DEFINE_COMPONENT(GraphicsComponent, ComponentType::Graphics);
-
-    std::vector<GLfloat> vertices;
+    std::vector<float> vertices;
 };

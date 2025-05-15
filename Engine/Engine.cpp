@@ -3,6 +3,8 @@
 
 using std::make_shared;
 using std::move;
+using std::shared_ptr;
+using std::swap;
 
 template<> Engine* ExplicitSingleton<Engine>::s_instance = nullptr;
 
@@ -15,14 +17,16 @@ Engine::Engine(const Parameters& params)
 }
 
 void Engine::start() {
-    for(auto subsystem: subsystems) {
-        subsystem->tick(scene.get());
+    while(true) {
+        for(auto subsystem: subsystems) {
+            subsystem->tick(scene.get());
+        }
     }
 }
 
-std::shared_ptr<Scene> Engine::setScene(std::shared_ptr<Scene> newScene)
+shared_ptr<Scene> Engine::setScene(shared_ptr<Scene> newScene)
 {
-    auto prevScene = move(scene);
+    auto oldScene = move(scene);
     scene = move(newScene);
-    return scene;
+    return oldScene;
 }
