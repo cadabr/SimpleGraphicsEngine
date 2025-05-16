@@ -11,6 +11,7 @@ set(SOURCES
     main.cpp
     Engine/Engine.cpp
     Engine/Scene/Subsystems/GraphicsSubsystem.cpp
+    Engine/Windows/MainWindow.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

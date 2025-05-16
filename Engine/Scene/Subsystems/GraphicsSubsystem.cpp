@@ -5,30 +5,19 @@
 #include "Scene/Scene.h"
 
 using glm::value_ptr;
+using std::any;
+using std::any_cast;
 
 class GraphicsSubsystemImpl {
 public:
-    GraphicsSubsystemImpl();
-    ~GraphicsSubsystemImpl();
+    GraphicsSubsystemImpl(any mainWindow);
     void tick(Scene* scene);
 private:
-    SDL_Window* window = nullptr;
-    SDL_GLContext glContext = nullptr;
+    SDL_Window* targetWindow;
 };
 
-GraphicsSubsystemImpl::GraphicsSubsystemImpl() {
-    SDL_Init(SDL_INIT_VIDEO);
-    window = SDL_CreateWindow("My Window", 1024, 768, SDL_WINDOW_OPENGL);
-    glContext = SDL_GL_CreateContext(window);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
-}
-
-GraphicsSubsystemImpl::~GraphicsSubsystemImpl() {
-    SDL_GL_DestroyContext(glContext);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+GraphicsSubsystemImpl::GraphicsSubsystemImpl(any mainWindow)
+: targetWindow(static_cast<SDL_Window*>(any_cast<void*>(mainWindow))) {
 }
 
 void GraphicsSubsystemImpl::tick(Scene* scene) {
@@ -50,11 +39,11 @@ void GraphicsSubsystemImpl::tick(Scene* scene) {
 
     glDisableClientState(GL_VERTEX_ARRAY);
 
-    SDL_GL_SwapWindow(window);
+    SDL_GL_SwapWindow(targetWindow);
 }
 
-GraphicsSubsystem::GraphicsSubsystem()
-: impl(std::make_unique<GraphicsSubsystemImpl>()) {
+GraphicsSubsystem::GraphicsSubsystem(any window)
+: impl(make_unique<GraphicsSubsystemImpl>(window)) {
 }
 
 GraphicsSubsystem::~GraphicsSubsystem() = default;

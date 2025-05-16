@@ -5,7 +5,7 @@ class GraphicsSubsystemImpl;
 
 class GraphicsSubsystem : public Subsystem {
 public:
-    GraphicsSubsystem();
+    GraphicsSubsystem(std::any mainWindow);
     ~GraphicsSubsystem();
     void tick(Scene* scene) override;
 private:

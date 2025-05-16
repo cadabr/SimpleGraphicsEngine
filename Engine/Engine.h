@@ -3,6 +3,7 @@
 #include "Core/ExplicitSingleton.h"
 #include "Scene/Scene.h"
 #include "Scene/Subsystem.h"
+#include "Windows/MainWindow.h"
 
 class Engine : public ExplicitSingleton<Engine> {
 public:
@@ -12,7 +13,11 @@ public:
     std::shared_ptr<Scene> setScene(std::shared_ptr<Scene> stranger);
     std::shared_ptr<Scene> getScene() const { return scene; }
 private:
+    void prepareSceneSubsystems();
+    void mainLoop();
+private:
     CLIArguments cliArguments;
     std::shared_ptr<Scene> scene;
     std::vector<std::shared_ptr<Subsystem>> subsystems;
+    MainWindow window;
 };

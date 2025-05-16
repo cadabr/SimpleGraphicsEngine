@@ -1,0 +1,34 @@
+﻿Folder PATH listing for volume _
+Volume serial number is B040-BE90
+E:\CODE\SIMPLEGRAPHICSENGINE\ENGINE
+ж   Engine.cpp
+ж   Engine.h
+ж   
++---Core
+ж       CLIArguments.h
+ж       ExplicitSingleton.h
+ж       
++---Scene
+ж   ж   Component.h
+ж   ж   MultiIndex.h
+ж   ж   Object.h
+ж   ж   Scene.h
+ж   ж   Subsystem.h
+ж   ж   
+ж   +---Components
+ж   ж       All.h
+ж   ж       GraphicsComponent.h
+ж   ж       KinematicsComponent.h
+ж   ж       TransformComponent.h
+ж   ж       
+ж   L---Subsystems
+ж           All.h
+ж           GraphicsSubsystem.cpp
+ж           GraphicsSubsystem.h
+ж           KinematicsSubsystem.h
+ж           
+L---Windows
+        MainWindow.cpp
+        MainWindow.h
+        WindowManager.h
+        
