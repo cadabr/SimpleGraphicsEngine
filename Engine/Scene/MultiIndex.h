@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "Components/Component.h"
 
 template <ComponentType Type>
 struct has_component {

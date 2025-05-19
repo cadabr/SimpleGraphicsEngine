@@ -1,6 +1,7 @@
 #pragma once
 
 #include <any>
+#include <bitset>
 #include <memory>
 #include <unordered_map>
 #include <utility>

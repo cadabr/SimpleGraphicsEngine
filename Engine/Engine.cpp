@@ -10,8 +10,7 @@ using std::vector;
 template<> Engine* ExplicitSingleton<Engine>::s_instance = nullptr;
 
 Engine::Engine(const CLIArguments& args)
-: cliArguments(args)
-, subsystems({}) {
+: cliArguments(args) {
 }
 
 void Engine::start() {

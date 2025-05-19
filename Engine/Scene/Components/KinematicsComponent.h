@@ -1,5 +1,5 @@
 #pragma once
-#include "Scene/Component.h"
+#include "Scene/Components/Component.h"
 
 class KinematicsComponent : public Component {
 public:

@@ -1,6 +1,9 @@
 #pragma once
-#include "Object.h"
-#include "MultiIndex.h"
+
+#include "Scene/Object.h"
+#include "Scene/MultiIndex.h"
+#include "Scene/Components/Component.h"
+#include "Scene/Subsystems/Subsystem.h"
 
 class Scene {
 public:

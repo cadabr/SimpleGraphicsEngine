@@ -1,4 +1,5 @@
 #pragma once
+#include "Mouse.h"
 
 class MainWindowImpl;
 
@@ -15,5 +16,8 @@ public:
     std::any to_any() const;
     MainWindowState pollEvents();
 private:
+    Mouse mouse;
     std::unique_ptr<MainWindowImpl> impl;
+
+    friend class MainWindowImpl;
 };

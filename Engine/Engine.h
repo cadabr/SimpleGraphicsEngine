@@ -1,8 +1,7 @@
 #pragma once
+#include "Scene/Scene.h"
 #include "Core/CLIArguments.h"
 #include "Core/ExplicitSingleton.h"
-#include "Scene/Scene.h"
-#include "Scene/Subsystem.h"
 #include "Windows/MainWindow.h"
 
 class Engine : public ExplicitSingleton<Engine> {
