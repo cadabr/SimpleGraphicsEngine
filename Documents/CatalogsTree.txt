@@ -4,19 +4,25 @@ E:\CODE\SIMPLEGRAPHICSENGINE\ENGINE
 ж   Engine.cpp
 ж   Engine.h
 ж   
++---Backends
+ж       All.h
+ж       Backend.h
+ж       InputBackend.h
+ж       WindowBackend.h
+ж       
 +---Core
 ж       CLIArguments.h
 ж       ExplicitSingleton.h
 ж       
 +---Scene
-ж   ж   Component.h
 ж   ж   MultiIndex.h
 ж   ж   Object.h
 ж   ж   Scene.h
-ж   ж   Subsystem.h
 ж   ж   
 ж   +---Components
 ж   ж       All.h
+ж   ж       CollisionComponents.h
+ж   ж       Component.h
 ж   ж       GraphicsComponent.h
 ж   ж       KinematicsComponent.h
 ж   ж       TransformComponent.h
@@ -26,9 +32,12 @@ E:\CODE\SIMPLEGRAPHICSENGINE\ENGINE
 ж           GraphicsSubsystem.cpp
 ж           GraphicsSubsystem.h
 ж           KinematicsSubsystem.h
+ж           PhysicsSubsystem.cpp
+ж           PhysicsSubsystem.h
+ж           Subsystem.h
 ж           
 L---Windows
         MainWindow.cpp
         MainWindow.h
-        WindowManager.h
+        Mouse.h
         
