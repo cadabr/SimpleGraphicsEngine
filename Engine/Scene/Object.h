@@ -1,5 +1,5 @@
 #pragma once
-#include "Components/Component.h"
+#include "Scene/Components/Component.h"
 
 class Object {
 public:

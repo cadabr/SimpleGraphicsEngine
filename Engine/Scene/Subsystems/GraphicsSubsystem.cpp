@@ -1,8 +1,6 @@
 #include "pch.h"
-#include "Scene/Components/GraphicsComponent.h"
-#include "Scene/Components/TransformComponent.h"
-#include "GraphicsSubsystem.h"
 #include "Scene/Scene.h"
+#include "Scene/Subsystems/GraphicsSubsystem.h"
 
 using glm::value_ptr;
 using std::any;

@@ -1,5 +1,6 @@
 #pragma once
-#include "Components/Component.h"
+#include "Scene/Components/Component.h"
+#include "Scene/Object.h"
 
 template <ComponentType Type>
 struct has_component {
@@ -12,6 +13,7 @@ struct has_component {
 template <ComponentType Type>
 struct component_tag {};
 
+struct by_collision  {};
 struct by_graphics   {};
 struct by_kinematics {};
 struct by_transform  {};
@@ -22,6 +24,10 @@ template <typename StoredClass>
 using MultiIndex = boost::multi_index_container<
     StoredClass,
     bmi::indexed_by<
+        bmi::hashed_non_unique<
+            bmi::tag<by_collision>,
+            has_component<ComponentType::Collision>
+        >,
         bmi::hashed_non_unique<
             bmi::tag<by_graphics>,
             has_component<ComponentType::Graphics>
@@ -40,6 +46,7 @@ using MultiIndex = boost::multi_index_container<
 template <ComponentType Type>
 struct tag_for_type;
 
+template <> struct tag_for_type<ComponentType::Collision>  { using type = by_collision;  };
 template <> struct tag_for_type<ComponentType::Graphics>   { using type = by_graphics;   };
 template <> struct tag_for_type<ComponentType::Kinematics> { using type = by_kinematics; };
 template <> struct tag_for_type<ComponentType::Transform>  { using type = by_transform;  };

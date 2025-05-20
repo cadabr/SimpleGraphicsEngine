@@ -13,6 +13,7 @@ set(SOURCES
     Engine/Engine.cpp
     Engine/Scene/Subsystems/GraphicsSubsystem.cpp
     Engine/Scene/Subsystems/PhysicsSubsystem.cpp
+    Engine/Scene/Subsystems/RaycastSubsystem.cpp
     Engine/Windows/MainWindow.cpp
 )
 

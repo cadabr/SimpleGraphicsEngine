@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Scene/Object.h"
+#include "Scene/Camera.h"
+#include "Scene/Components/All.h"
 #include "Scene/MultiIndex.h"
-#include "Scene/Components/Component.h"
-#include "Scene/Subsystems/Subsystem.h"
+#include "Scene/Object.h"
+#include "Scene/Subsystems/All.h"
 
 class Scene {
 public:
@@ -29,6 +30,9 @@ public:
         return objects.get<typename tag_for_type<Type>::type>().equal_range(true);
     }
 
+    const Camera& getCamera() const { return camera; }
+
 private:
     MultiIndex<std::shared_ptr<Object>> objects;
+    Camera camera;
 };
