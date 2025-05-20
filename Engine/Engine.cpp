@@ -37,7 +37,8 @@ shared_ptr<Scene> Engine::setScene(shared_ptr<Scene> newScene) {
 
 void Engine::prepareSceneSubsystems() {
     subsystems = move(vector<shared_ptr<Subsystem>> {
-        {make_shared<GraphicsSubsystem>(window.to_any())},
-        {make_shared<KinematicsSubsystem>()}
+        { make_shared<GraphicsSubsystem   >(window.to_any()) },
+        { make_shared<KinematicsSubsystem >()                },
+        { make_shared<PhysicsSubsystem    >()                }
     });
 }

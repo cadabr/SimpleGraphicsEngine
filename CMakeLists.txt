@@ -4,27 +4,30 @@ project(SimpleGraphicsEngine VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_subdirectory(external/SDL)
-add_subdirectory(external/glm)
+add_subdirectory(External/SDL)
+add_subdirectory(External/glm)
+add_subdirectory(External/bullet3)
 
 set(SOURCES
     main.cpp
     Engine/Engine.cpp
     Engine/Scene/Subsystems/GraphicsSubsystem.cpp
+    Engine/Scene/Subsystems/PhysicsSubsystem.cpp
     Engine/Windows/MainWindow.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-set(BOOST_LIBS ${CMAKE_SOURCE_DIR}/external/boost/libs)
+set(BOOST_LIBS ${CMAKE_SOURCE_DIR}/External/boost/libs)
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/pch.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/Engine
-    ${CMAKE_SOURCE_DIR}/external/glm
-    ${CMAKE_SOURCE_DIR}/external/SDL/include
+    ${CMAKE_SOURCE_DIR}/External/glm
+    ${CMAKE_SOURCE_DIR}/External/SDL/include
+    ${CMAKE_SOURCE_DIR}/External/bullet3/src
     ${BOOST_LIBS}/assert/include
     ${BOOST_LIBS}/bind/include
     ${BOOST_LIBS}/config/include
@@ -47,14 +50,13 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 find_package(OpenGL REQUIRED)
 
-set(SDL_DLL_PATH ${CMAKE_SOURCE_DIR}/build/external/SDL/SDL3.dll)
-
+# Это переносит SDL3.dll в папку к exe
+set(SDL_DLL_PATH ${CMAKE_SOURCE_DIR}/build/lib/SDL3.dll)
 set(OUTPUT_DLL_DIR ${CMAKE_SOURCE_DIR}/build)
-
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     ${SDL_DLL_PATH}
     ${OUTPUT_DLL_DIR}
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC SDL3::SDL3 OpenGL::GL)
+target_link_libraries(${PROJECT_NAME} PUBLIC SDL3::SDL3 OpenGL::GL BulletDynamics BulletCollision LinearMath)

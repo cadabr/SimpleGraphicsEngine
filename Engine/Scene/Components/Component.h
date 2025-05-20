@@ -4,7 +4,7 @@ enum class ComponentType {
     Graphics,
     Kinematics,
     Transform,
-    ENUM_SIZE
+    Collision
 };
 
 class Object;
