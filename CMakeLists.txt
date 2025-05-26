@@ -11,7 +11,11 @@ add_subdirectory(External/bullet3)
 set(SOURCES
     main.cpp
     Engine/Engine.cpp
+    Engine/Scene/Scene.cpp
+    Engine/Scene/Subsystems/EventProcessingSubsystem.cpp
     Engine/Scene/Subsystems/GraphicsSubsystem.cpp
+    Engine/Scene/Subsystems/InputProcessingSubsystem.cpp
+    Engine/Scene/Subsystems/KinematicsSubsystem.cpp
     Engine/Scene/Subsystems/PhysicsSubsystem.cpp
     Engine/Scene/Subsystems/RaycastSubsystem.cpp
     Engine/Windows/MainWindow.cpp
@@ -23,7 +27,9 @@ set(BOOST_LIBS ${CMAKE_SOURCE_DIR}/External/boost/libs)
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/pch.h)
 
+set(OPENGL_INCLUDE_DIRECTORY E:/apps/msys64/ucrt64/include/GL)
 target_include_directories(${PROJECT_NAME} PUBLIC
+    ${OPENGL_INCLUDE_DIRECTORY}
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/Engine
     ${CMAKE_SOURCE_DIR}/External/glm
@@ -51,6 +57,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 find_package(OpenGL REQUIRED)
 
+target_link_libraries(${PROJECT_NAME} PUBLIC SDL3::SDL3 OpenGL::GL glu32 BulletDynamics BulletCollision LinearMath)
+
 # Это переносит SDL3.dll в папку к exe
 set(SDL_DLL_PATH ${CMAKE_SOURCE_DIR}/build/lib/SDL3.dll)
 set(OUTPUT_DLL_DIR ${CMAKE_SOURCE_DIR}/build)
@@ -59,5 +67,3 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     ${SDL_DLL_PATH}
     ${OUTPUT_DLL_DIR}
 )
-
-target_link_libraries(${PROJECT_NAME} PUBLIC SDL3::SDL3 OpenGL::GL BulletDynamics BulletCollision LinearMath)

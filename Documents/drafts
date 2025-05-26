@@ -6,7 +6,7 @@ template<> struct remap<SDL_BUTTON_RIGHT>  { static constexpr int value = 2; };
 
 constexpr int index = remap<SDL_BUTTON_RIGHT>::value;
 
-enum class MouseButtonField {
+enum class MouseButton {
     Left   = remap<SDL_BUTTON_LEFT>::value,
     Middle = remap<SDL_BUTTON_MIDDLE>::value,
     Right  = remap<SDL_BUTTON_RIGHT>::value

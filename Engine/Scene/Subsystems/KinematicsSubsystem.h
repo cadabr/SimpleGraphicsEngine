@@ -3,6 +3,7 @@
 
 class KinematicsSubsystem : public Subsystem {
 public:
-    void tick(Scene* scene) override {
-    }
+    KinematicsSubsystem(Scene& scene);
+    void tick() override;
+    void onEvent(std::shared_ptr<Event> event) override;
 };

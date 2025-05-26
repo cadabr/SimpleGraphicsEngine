@@ -5,9 +5,10 @@ class GraphicsSubsystemImpl;
 
 class GraphicsSubsystem : public Subsystem {
 public:
-    GraphicsSubsystem(std::any mainWindow);
+    GraphicsSubsystem(Scene& scene);
     ~GraphicsSubsystem();
-    void tick(Scene* scene) override;
+    void tick() override;
 private:
+    friend class GraphicsSubsystemImpl;
     std::unique_ptr<GraphicsSubsystemImpl> impl;
 };

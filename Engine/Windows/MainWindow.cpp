@@ -1,29 +1,33 @@
 #include "pch.h"
-#include "MainWindow.h"
-#include "Mouse.h"
+#include "Windows/MainWindow.h"
+#include "Windows/Mouse.h"
 
 using std::any;
 using std::array;
 using std::make_unique;
+using std::move;
+using std::string;
 
 class MainWindowImpl {
 public:
-    MainWindowImpl(MainWindow& mainWindow);
+    MainWindowImpl(MainWindow& mainWindow, const string& caption, size_t width, size_t height);
     ~MainWindowImpl();
     any to_any() const;
     MainWindowState pollEvents();
+private:
+    MousePosition sdlMouseMotion2Position(const SDL_MouseMotionEvent& motion) const;
 private:
     MainWindow& mainWindow;
     SDL_Window* sdl_window;
     SDL_GLContext glContext;
 };
 
-MainWindowImpl::MainWindowImpl(MainWindow& mainWindow)
+MainWindowImpl::MainWindowImpl(MainWindow& mainWindow, const string& caption, size_t width, size_t height)
 : mainWindow(mainWindow)
 , sdl_window(nullptr)
 , glContext(nullptr) {
     SDL_Init(SDL_INIT_VIDEO);
-    sdl_window = SDL_CreateWindow("Main Window", 1024, 768, SDL_WINDOW_OPENGL);
+    sdl_window = SDL_CreateWindow(caption.c_str(), mainWindow.width,  mainWindow.height, SDL_WINDOW_OPENGL);
     glContext = SDL_GL_CreateContext(sdl_window);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -42,9 +46,9 @@ any MainWindowImpl::to_any() const {
 
 MainWindowState MainWindowImpl::pollEvents() {
     static array<size_t, 3> SDL_ButtonsRemap {
-        static_cast<size_t>( MouseButtonField::Left   ),
-        static_cast<size_t>( MouseButtonField::Middle ),
-        static_cast<size_t>( MouseButtonField::Right  )
+        static_cast<size_t>( MouseButton::Right  ),
+        static_cast<size_t>( MouseButton::Left   ),
+        static_cast<size_t>( MouseButton::Middle )
     };
 
     auto result = MainWindowState::Active;
@@ -53,7 +57,7 @@ MainWindowState MainWindowImpl::pollEvents() {
         if(SDL_EVENT_QUIT == event.type) {
             result = MainWindowState::DestroyPending;
         } else if(SDL_EVENT_MOUSE_MOTION == event.type) {
-            mainWindow.mouse.position = {event.motion.x, event.motion.y};
+            mainWindow.mouse.position = move(sdlMouseMotion2Position(event.motion));
         } else if(SDL_EVENT_MOUSE_BUTTON_DOWN == event.type) {
             mainWindow.mouse.buttons[SDL_ButtonsRemap[event.button.button]] = true;
         } else if(SDL_EVENT_MOUSE_BUTTON_UP == event.type) {
@@ -63,8 +67,16 @@ MainWindowState MainWindowImpl::pollEvents() {
     return result;
 }
 
-MainWindow::MainWindow()
-: impl(make_unique<MainWindowImpl>(*this)) {
+MousePosition MainWindowImpl::sdlMouseMotion2Position(const SDL_MouseMotionEvent& motion) const {
+    MousePosition result{int(motion.x), int(motion.y), motion.x / mainWindow.getWidth(), motion.y / mainWindow.getHeight()};
+    return result;
+}
+
+MainWindow::MainWindow(const string& caption, size_t width, size_t height)
+: impl(make_unique<MainWindowImpl>(*this, caption, width, height))
+, caption(caption)
+, width(width)
+, height(height) {
 }
 
 MainWindow::~MainWindow() = default;

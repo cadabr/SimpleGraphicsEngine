@@ -10,13 +10,12 @@ public:
     void start();
     const CLIArguments& getCLIArguments() const { return cliArguments; }
     std::shared_ptr<Scene> setScene(std::shared_ptr<Scene> stranger);
-    std::shared_ptr<Scene> getScene() const { return scene; }
+    //std::shared_ptr<Scene> getScene() const { return scene; }
+    const MainWindow& getMainWindow() const { return mainWindow; }
 private:
-    void prepareSceneSubsystems();
     void mainLoop();
 private:
     CLIArguments cliArguments;
+    MainWindow mainWindow;
     std::shared_ptr<Scene> scene;
-    std::vector<std::shared_ptr<Subsystem>> subsystems;
-    MainWindow window;
 };

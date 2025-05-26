@@ -1,31 +1,25 @@
 #include "Engine.h"
 #include "Scene/Subsystems/All.h"
 
-using std::make_shared;
 using std::move;
 using std::shared_ptr;
-using std::swap;
-using std::vector;
 
 template<> Engine* ExplicitSingleton<Engine>::s_instance = nullptr;
 
 Engine::Engine(const CLIArguments& args)
-: cliArguments(args) {
+: cliArguments(args)
+, mainWindow("SimpleGraphicsEngine", 1024u, 768u) {
 }
 
 void Engine::start() {
-    prepareSceneSubsystems();
+    scene->prepareSubsystems();
     mainLoop();
 }
 
 void Engine::mainLoop() {
-    while(true) {
-        for(auto subsystem: subsystems) {
-            subsystem->tick(scene.get());
-        }
-        if(window.pollEvents() == MainWindowState::DestroyPending) {
-            break;
-        }
+    while(mainWindow.pollEvents() != MainWindowState::DestroyPending) {
+        scene->setMouse(mainWindow.getMouse());
+        scene->tick();
     }
 }
 
@@ -33,13 +27,4 @@ shared_ptr<Scene> Engine::setScene(shared_ptr<Scene> newScene) {
     auto oldScene = move(scene);
     scene = move(newScene);
     return oldScene;
-}
-
-void Engine::prepareSceneSubsystems() {
-    subsystems = move(vector<shared_ptr<Subsystem>> {
-        { make_shared<GraphicsSubsystem   >(window.to_any()) },
-        { make_shared<KinematicsSubsystem >()                },
-        { make_shared<PhysicsSubsystem    >()                },
-        { make_shared<RaycastSubsystem    >()                }
-    });
 }

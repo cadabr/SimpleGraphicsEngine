@@ -3,21 +3,24 @@
 #include "Scene/Subsystems/PhysicsSubsystem.h"
 
 using std::make_unique;
+using std::unique_ptr;
 
 class PhysicsSubsystemImpl {
 public:
-    PhysicsSubsystemImpl();
+    PhysicsSubsystemImpl(PhysicsSubsystem& interface);
     ~PhysicsSubsystemImpl();
-    void tick(Scene* scene);
+    void tick();
 private:
-    std::unique_ptr<btBroadphaseInterface> broadphase;
-    std::unique_ptr<btDefaultCollisionConfiguration> collisionConfig;
-    std::unique_ptr<btCollisionDispatcher> dispatcher;
-    std::unique_ptr<btCollisionWorld> collisionWorld;
+    PhysicsSubsystem& interface;
+    unique_ptr<btBroadphaseInterface> broadphase;
+    unique_ptr<btDefaultCollisionConfiguration> collisionConfig;
+    unique_ptr<btCollisionDispatcher> dispatcher;
+    unique_ptr<btCollisionWorld> collisionWorld;
 };
 
-PhysicsSubsystemImpl::PhysicsSubsystemImpl()
-: broadphase(make_unique<btDbvtBroadphase>())
+PhysicsSubsystemImpl::PhysicsSubsystemImpl(PhysicsSubsystem& interface)
+: interface(interface)
+, broadphase(make_unique<btDbvtBroadphase>())
 , collisionConfig(make_unique<btDefaultCollisionConfiguration>())
 , dispatcher(make_unique<btCollisionDispatcher>(collisionConfig.get()))
 , collisionWorld(make_unique<btCollisionWorld>(dispatcher.get(), broadphase.get(), collisionConfig.get())) {
@@ -26,15 +29,16 @@ PhysicsSubsystemImpl::PhysicsSubsystemImpl()
 PhysicsSubsystemImpl::~PhysicsSubsystemImpl() {
 }
 
-void PhysicsSubsystemImpl::tick(Scene* scene) {
+void PhysicsSubsystemImpl::tick() {
 }
 
-PhysicsSubsystem::PhysicsSubsystem()
-: impl(make_unique<PhysicsSubsystemImpl>()) {
+PhysicsSubsystem::PhysicsSubsystem(Scene& scene)
+: Subsystem(scene)
+, impl(make_unique<PhysicsSubsystemImpl>(*this)) {
 }
 
 PhysicsSubsystem::~PhysicsSubsystem() = default;
 
-void PhysicsSubsystem::tick(Scene* scene) {
-    impl->tick(scene);
+void PhysicsSubsystem::tick() {
+    impl->tick();
 }

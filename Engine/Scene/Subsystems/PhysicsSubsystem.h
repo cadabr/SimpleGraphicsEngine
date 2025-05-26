@@ -5,9 +5,10 @@ class PhysicsSubsystemImpl;
 
 class PhysicsSubsystem : public Subsystem {
 public:
-    PhysicsSubsystem();
+    PhysicsSubsystem(Scene& scene);
     ~PhysicsSubsystem();
-    void tick(Scene* scene) override;
+    void tick() override;
 private:
+    friend class PhysicsSubsystemImpl;
     std::unique_ptr<PhysicsSubsystemImpl> impl;
 };
